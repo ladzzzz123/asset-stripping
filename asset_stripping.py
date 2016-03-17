@@ -48,9 +48,9 @@ def main():
     total_investment = sum([company.investment for company in selected_companies])
     selected_company_nos = [company.company_no for company in selected_companies]
 
-    print ("{} Selected Companies: {}".format(len(selected_company_nos), selected_company_nos))
-    print ("Total Investment: {:d}".format(total_investment))
-    print ("Total Value: {:d}".format( total_value))
+    print ("%d Selected Companies: %s" % (len(selected_company_nos), selected_company_nos))
+    print ("Total Investment: %d" % total_investment)
+    print ("Total Value: %d" % total_value)
 
 if __name__ == "__main__":
     main()
