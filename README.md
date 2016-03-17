@@ -24,6 +24,10 @@ To run the program, you need to install [pyeasyga](https://github.com/remiomosow
     python asset_stripping.py
 ```
 
+In its present form, the program optimises for a selection of companies that have the highest return value with lower investment value (i.e. pick the highest valued combination of companies, and if there is more than one combination with the same high value, pick the combination that has lower investment.
+
+In practice, a fund manager might also want to limit the number of companies selected. One could attempt to minimise the number of companies selected as long as some threshold value is met.
+
 ### Example Output
 63 Selected Companies: [1, 2, 3, 4, 5, 6, 7, 12, 15, 16, 17, 18, 19, 20, 21, 22, 24, 25, 27, 28, 30, 32, 33, 34, 35, 37, 40, 41, 43, 44, 46, 48, 50, 51, 53, 55, 57, 58, 59, 63, 66, 67, 69, 72, 73, 74, 76, 77, 79, 80, 81, 82, 83, 89, 90, 91, 92, 94, 95, 96, 98, 99, 100]
 Total Investment: 1999

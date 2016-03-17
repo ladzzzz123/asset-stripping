@@ -20,35 +20,49 @@ ga.generations = 500         # default is 100
 
 # define the fitness function
 def fitness(individual, data):
+    fitness_val = 0.0
     value, investment = 0, 0
+
     for selected, company in zip(individual, data):
         if selected:
             value += company.value
             investment += company.investment
 
-    # penalise investments over available funds
+    # penalise investments that go over available funds
     if investment > available_funds:
-        value = 0
+        fitness_val = 0.0
+    else:
+        # apply the appropriate group bonues
+        for group, bonus in zip(linked_groups, group_bonuses):
+            if all([individual[member] for member in group]):
+                value += bonus
 
-    # apply appropriate group bonuses
-    for group, bonus in zip(linked_groups, group_bonuses):
-        if all([individual[member] for member in group]):
-            value += bonus
+        # Lower investments for the same value have a higher fitness
+        fitness_val = value + (1.0 / investment)
 
-    return value
+    return fitness_val
 
 def main():
     ga.fitness_function = fitness               # set the GA's fitness function
     ga.run()                                    # run the GA
-    best_solution = ga.best_individual()        # print the GA's best solution
+    best_solution = ga.best_individual()        # get the GA's best solution
+    selected_individuals = best_solution[1]     # the binary list of selected companies
 
-    selected_individuals = best_solution[1]
-    selected_companies = [company for selected, company in zip(selected_individuals, data) if selected]
-    total_value = best_solution[0]
-    total_investment = sum([company.investment for company in selected_companies])
-    selected_company_nos = [company.company_no for company in selected_companies]
+    # get the total value and investment for the selected companies
+    total_value, total_investment = 0, 0
+    selected_companies = []
+    for selected, company in zip(selected_individuals, data):
+        if selected:
+            total_value += company.value
+            total_investment += company.investment
+            selected_companies.append(company.company_no)
 
-    print ("%d Selected Companies: %s" % (len(selected_company_nos), selected_company_nos))
+    # apply the appropriate group bonues
+    for group, bonus in zip(linked_groups, group_bonuses):
+        if all([selected_individuals[member] for member in group]):
+            total_value += bonus
+
+    print ("%d Selected Companies: %s" % (len(selected_companies), selected_companies))
     print ("Total Investment: %d" % total_investment)
     print ("Total Value: %d" % total_value)
 
