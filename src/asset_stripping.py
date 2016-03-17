@@ -29,7 +29,7 @@ def fitness(individual, data):
             investment += company.investment
 
     # if no company was selected return
-    if value, investment == 0, 0:
+    if (value, investment) == (0, 0):
         return 0.0
 
     # penalise investments that go over available funds
